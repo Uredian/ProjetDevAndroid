@@ -61,16 +61,17 @@ public class ImageService extends Service {
                 URL url = new URL(extras.getString("url"));
                 new Thread(() -> {
                     try {
-                        bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        fragmentRecherche.notifyImage(bitmap);
-                        String test = readUrlContent(new URL("https://www.flickr.com/services/feeds/photos_public.gne?tags=cats&format=json"));
+                        String test = readUrlContent(url);
                         JSONObject json = new JSONObject(test);
                         Log.d("IMAGE SERVICE", "JSON FROM URL: "+json);
+
                         List<String> linkList = parseJson(json);
+                        List<Bitmap> bitmaps = new ArrayList<>();
                         for (String link: linkList) {
                             bitmap = BitmapFactory.decodeStream(new URL(link).openConnection().getInputStream());
-                            fragmentRecherche.notifyImage(bitmap);
+                            bitmaps.add(bitmap);
                         }
+                        fragmentRecherche.notifyImage(bitmaps);
 
 
 

@@ -36,8 +36,8 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/imageViewRecherche"
+        <ListView
+            android:id="@+id/listViewRecherche"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
