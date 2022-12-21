@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="gris"
+        android:entries="@array/pref_color_option_labels"
+        android:entryValues="@array/pref_color_option_values"
+        android:key="preferedColour"
+        android:title="Couleur de l'action bar"
+        app:summary="La couleur de la barre d'action de l'application"/>
+
+</PreferenceScreen>

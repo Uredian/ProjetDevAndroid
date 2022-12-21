@@ -6,16 +6,15 @@
     >
 
     <ImageView
-        android:id="@+id/image_view"
+        android:id="@+id/favorite_view"
         android:layout_width="250dp"
         android:layout_height="250dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
+    <Button
+        android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:contentDescription="favoriteButton"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
+        android:text="Supprimer des favoris" />
 
 </LinearLayout>

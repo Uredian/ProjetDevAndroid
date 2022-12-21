@@ -7,10 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Base64;
 import android.util.Log;
-
-import androidx.fragment.app.FragmentActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,27 +52,28 @@ public class ImageService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+        //On récupère l'url disponible dans l'intent
         Bundle extras = intent.getExtras();
-        if(extras.containsKey("url")){
+        if (extras.containsKey("url")) {
             try {
                 URL url = new URL(extras.getString("url"));
+                //On crée un Thread qui envoie les images récupérées au fragment pour les afficher
                 new Thread(() -> {
                     try {
                         String test = readUrlContent(url);
                         JSONObject json = new JSONObject(test);
-                        Log.d("IMAGE SERVICE", "JSON FROM URL: "+json);
+                        Log.d("IMAGE SERVICE", "JSON FROM URL: " + json);
 
                         List<String> linkList = parseJson(json);
                         List<Bitmap> bitmaps = new ArrayList<>();
-                        for (String link: linkList) {
+                        for (String link : linkList) {
                             bitmap = BitmapFactory.decodeStream(new URL(link).openConnection().getInputStream());
                             bitmaps.add(bitmap);
                         }
+
                         fragmentRecherche.notifyImage(bitmaps);
 
-
-
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         System.out.println(e);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -86,17 +84,19 @@ public class ImageService extends Service {
             }
         }
 
-
         return START_REDELIVER_INTENT;
     }
 
     public List<String> parseJson(JSONObject json) throws JSONException {
+        //On récupère l'ensemble des urls d'image retourné par la requête initiale
         JSONArray jsonArray = json.getJSONArray("items");
         List<String> result = new ArrayList<>();
+
+        //On parse l'objet selon le format donné par flickr
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject item = jsonArray.getJSONObject(i);
             item = item.getJSONObject("media");
-            Log.d("IMAGE SERVICE", "link for item: "+ item.getString("m"));
+            Log.d("IMAGE SERVICE", "link for item: " + item.getString("m"));
             result.add(item.getString("m"));
         }
 
@@ -112,7 +112,7 @@ public class ImageService extends Service {
             sb.append((char) cp);
         }
         String result = sb.toString();
-        result = result.substring(15,result.length()-1);
+        result = result.substring(15, result.length() - 1);
         return result;
     }
 
